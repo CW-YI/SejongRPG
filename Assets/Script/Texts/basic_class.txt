@@ -2,50 +2,50 @@
   "classes": [
     {
       "id": "c",
-      "subjectName": "CÇÁ·Î±×·¡¹Ö",
+      "subjectName": "Cí”„ë¡œê·¸ë˜ë°",
       "credit": 3,
       "isCompleted": true,
-      "category": "ÀüÇÊ",
+      "category": "ì „í•„",
       "otherPoints": [ "advanced_c" ]
     },
     {
       "id": "advanced_c",
-      "subjectName": "°í±ŞCÇÁ·Î±×·¡¹Ö",
+      "subjectName": "ê³ ê¸‰Cí”„ë¡œê·¸ë˜ë°",
       "credit": 3,
       "isCompleted": false,
-      "category": "ÀüÇÊ",
+      "category": "ì „í•„",
       "otherPoints": [ "data_structure" ]
     },
     {
       "id": "data_structure",
-      "subjectName": "ÀÚ·á±¸Á¶",
+      "subjectName": "ìë£Œêµ¬ì¡°",
       "credit": 3,
       "isCompleted": false,
-      "category": "ÀüÇÊ",
+      "category": "ì „í•„",
       "otherPoints": [ "algorithm" ]
     },
     {
       "id": "algorithm",
-      "subjectName": "¾Ë°í¸®Áò",
+      "subjectName": "ì•Œê³ ë¦¬ì¦˜",
       "credit": 3,
       "isCompleted": false,
-      "category": "ÀüÇÊ",
+      "category": "ì „í•„",
       "otherPoints": []
     },
     {
       "id": "digital_systems",
-      "subjectName": "µğÁöÅĞ½Ã½ºÅÛ",
+      "subjectName": "ë””ì§€í„¸ì‹œìŠ¤í…œ",
       "credit": 3,
       "isCompleted": true,
-      "category": "ÀüÇÊ",
+      "category": "ì „í•„",
       "otherPoints": [ "computer_architecture"]
     },
     {
       "id": "computer_architecture",
-      "subjectName": "ÄÄÇ»ÅÍ±¸Á¶",
+      "subjectName": "ì»´í“¨í„°êµ¬ì¡°",
       "credit": 3,
       "isCompleted": false,
-      "category": "ÀüÇÊ",
+      "category": "ì „í•„",
       "otherPoints": [ ]
     }
   ]

@@ -30,6 +30,7 @@ public class ClassManager : MonoBehaviour
         // 모든 Class 데이터를 바탕으로 PointController 생성 및 배치
         foreach (var classData in data.classes)
         {
+            //Debug.Log(classData.category);
             CreatePoint(classData, ref currentX, ref currentY);
         }
 
@@ -59,6 +60,7 @@ public class ClassManager : MonoBehaviour
         // Point 데이터 설정
         controller.name = classData.id; // Unity 오브젝트 이름 설정
         controller.isCompleted = classData.isCompleted;
+        //Debug.Log(classData.category);
         controller.SetPointData(classData.id, classData.subjectName, classData.category, classData.credit); // 추가 데이터 설정
 
         // 생성된 PointController를 딕셔너리에 추가
