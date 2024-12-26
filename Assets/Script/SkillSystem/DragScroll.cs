@@ -10,47 +10,50 @@ public class DragScroll : MonoBehaviour
 
     void Update()
     {
-        // 터치 입력 처리
-        if (Input.touchCount > 0)
+        if (ButtonManager.instance.isDragAvailable)
         {
-            Touch touch = Input.GetTouch(0);
-
-            switch (touch.phase)
+            // 터치 입력 처리
+            if (Input.touchCount > 0)
             {
-                case TouchPhase.Began:
-                    startPos = touch.position;
-                    isDragging = true;
-                    break;
+                Touch touch = Input.GetTouch(0);
 
-                case TouchPhase.Moved:
-                    if (isDragging)
-                    {
-                        HandleDrag(touch.position);
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
                         startPos = touch.position;
-                    }
-                    break;
+                        isDragging = true;
+                        break;
 
-                case TouchPhase.Ended:
-                case TouchPhase.Canceled:
-                    isDragging = false;
-                    break;
+                    case TouchPhase.Moved:
+                        if (isDragging)
+                        {
+                            HandleDrag(touch.position);
+                            startPos = touch.position;
+                        }
+                        break;
+
+                    case TouchPhase.Ended:
+                    case TouchPhase.Canceled:
+                        isDragging = false;
+                        break;
+                }
             }
-        }
 
-        // 마우스 입력 처리
-        if (Input.GetMouseButtonDown(0)) // 마우스 클릭 시작
-        {
-            startPos = Input.mousePosition;
-            isDragging = true;
-        }
-        else if (Input.GetMouseButton(0) && isDragging) // 마우스 드래그 중
-        {
-            HandleDrag(Input.mousePosition);
-            startPos = Input.mousePosition;
-        }
-        else if (Input.GetMouseButtonUp(0)) // 마우스 클릭 종료
-        {
-            isDragging = false;
+            // 마우스 입력 처리
+            if (Input.GetMouseButtonDown(0)) // 마우스 클릭 시작
+            {
+                startPos = Input.mousePosition;
+                isDragging = true;
+            }
+            else if (Input.GetMouseButton(0) && isDragging) // 마우스 드래그 중
+            {
+                HandleDrag(Input.mousePosition);
+                startPos = Input.mousePosition;
+            }
+            else if (Input.GetMouseButtonUp(0)) // 마우스 클릭 종료
+            {
+                isDragging = false;
+            }
         }
     }
 

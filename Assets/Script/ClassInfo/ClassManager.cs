@@ -53,7 +53,7 @@ public class ClassManager : MonoBehaviour
     {
         // 프리팹 생성 및 위치 설정
         Vector3 position = new Vector3(currentX, currentY, 0f);
-        GameObject pointObj = Instantiate(pointPrefab, position, Quaternion.identity);
+        GameObject pointObj = Instantiate(pointPrefab, position, Quaternion.identity, transform);
         lr_PointController controller = pointObj.GetComponent<lr_PointController>();
 
         // Point 데이터 설정

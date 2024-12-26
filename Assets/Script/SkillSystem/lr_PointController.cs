@@ -52,7 +52,7 @@ public class lr_PointController : MonoBehaviour
     private void CreateLine(Transform targetPoint)
     {
         // Line Renderer 프리팹 생성
-        GameObject lineObj = Instantiate(linePrefab, Vector3.zero, Quaternion.identity);
+        GameObject lineObj = Instantiate(linePrefab, Vector3.zero, Quaternion.identity, transform);
         LineRenderer line = lineObj.GetComponent<LineRenderer>();
 
         // Line 설정
