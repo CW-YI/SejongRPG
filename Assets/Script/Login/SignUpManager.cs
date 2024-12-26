@@ -3,30 +3,62 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
-public class LoginManager : MonoBehaviour
+public class SignUpManager : MonoBehaviour
 {
-    public TMP_InputField idInputField;
-    public TMP_InputField passwordInputField;
-    public Button loginButton;
+    public InputField nameInputField;
+    public InputField idInputField;
+    public InputField passwordInputField;
+    public InputField passwordIdentifyInputField;
+    public InputField userGradeInputField;
+    public InputField creditSumInputField;
+    public Toggle militaryServiceNeededToggle;
+    public Toggle militaryServedToggle;
+    public Toggle majorTransferToggle;
+    public Button signUpButton;
+    public Text mismatchText;
+    public Text passwordMismatchText; // 새로운 텍스트
 
-    private string loginUrl = "http://your-backend-url.com/api/login"; // 백엔드 서버의 로그인 엔드포인트 URL
+    private string signUpUrl = "http://your-backend-url.com/api/signup"; // 백엔드 서버의 회원가입 엔드포인트 URL
 
     // Start is called before the first frame update
     void Start()
     {
-        loginButton.onClick.AddListener(OnLoginButtonClick);
+        signUpButton.onClick.AddListener(OnSignUpButtonClick);
+        mismatchText.gameObject.SetActive(false);
+        passwordMismatchText.gameObject.SetActive(false); // 새로운 텍스트 초기화
     }
 
-    private void OnLoginButtonClick()
+    private void OnSignUpButtonClick()
     {
+        if (passwordInputField.text != passwordIdentifyInputField.text)
+        {
+            passwordMismatchText.text = "비밀번호가 일치하지 않습니다.\n비밀번호를 수정하세요.";
+            passwordMismatchText.gameObject.SetActive(true);
+            return;
+        }
+        passwordMismatchText.gameObject.SetActive(false);
+
+        string name = nameInputField.text;
         int id = int.Parse(idInputField.text);
         string password = passwordInputField.text;
+        int userGrade = int.Parse(userGradeInputField.text);
+        int creditSum = int.Parse(creditSumInputField.text);
+        bool militaryServiceNeeded = militaryServiceNeededToggle.isOn;
+        bool militaryServed = militaryServedToggle.isOn;
+        bool majorTransfer = majorTransferToggle.isOn;
 
         User user = new User
         {
+            name = name,
             ID = id,
-            password = password
+            password = password,
+            userGrade = userGrade,
+            creditSum = creditSum,
+            militaryServiceNeeded = militaryServiceNeeded,
+            militaryServed = militaryServed,
+            majorTransfer = majorTransfer
         };
 
         SendUserData(user);
@@ -41,7 +73,7 @@ public class LoginManager : MonoBehaviour
     {
         string jsonData = JsonUtility.ToJson(user);
 
-        UnityWebRequest request = new UnityWebRequest(loginUrl, "POST");
+        UnityWebRequest request = new UnityWebRequest(signUpUrl, "POST");
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = new DownloadHandlerBuffer();
@@ -73,7 +105,8 @@ public class LoginManager : MonoBehaviour
             Debug.Log("Military Service Needed: " + user.militaryServiceNeeded);
             Debug.Log("Military Served: " + user.militaryServed);
             Debug.Log("Major Transfer: " + user.majorTransfer);
-            // 추가적인 처리 로직을 여기에 작성
+            // 회원가입이 성공적으로 완료되면 로그인 씬으로 전환
+            SceneManager.LoadScene("Login");
         }
         catch (System.Exception ex)
         {
@@ -81,3 +114,4 @@ public class LoginManager : MonoBehaviour
         }
     }
 }
+
