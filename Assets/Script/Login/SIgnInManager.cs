@@ -3,33 +3,43 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LoginManager : MonoBehaviour
 {
-    public TMP_InputField idInputField;
-    public TMP_InputField passwordInputField;
-    public Button loginButton;
+    public InputField idInputField;
+    public InputField passwordInputField;
+    public Button signInButton;
+    public Button signUpButton;
+    public Text passwordMismatchText; // 비밀번호 불일치 텍스트
 
-    private string loginUrl = "http://your-backend-url.com/api/login"; // 백엔드 서버의 로그인 엔드포인트 URL
+    private string loginUrl = "http://sejongrpg.duckdns.org:3000/users"; // 백엔드 서버의 로그인 엔드포인트 URL
 
     // Start is called before the first frame update
     void Start()
     {
-        loginButton.onClick.AddListener(OnLoginButtonClick);
+        signInButton.onClick.AddListener(OnSignInButtonClick);
+        signUpButton.onClick.AddListener(OnSignUpButtonClick);
+        passwordMismatchText.gameObject.SetActive(false); // 비밀번호 불일치 텍스트 초기화
     }
 
-    private void OnLoginButtonClick()
+    private void OnSignInButtonClick()
     {
-        int id = int.Parse(idInputField.text);
+        string id = idInputField.text;
         string password = passwordInputField.text;
 
         User user = new User
         {
-            ID = id,
-            password = password
+            id = id,
+            passwd = password
         };
 
         SendUserData(user);
+    }
+
+    private void OnSignUpButtonClick()
+    {
+        SceneManager.LoadScene("SignUp");
     }
 
     public void SendUserData(User user)
@@ -41,16 +51,17 @@ public class LoginManager : MonoBehaviour
     {
         string jsonData = JsonUtility.ToJson(user);
 
-        UnityWebRequest request = new UnityWebRequest(loginUrl, "POST");
-        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
-        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        UnityWebRequest request = new UnityWebRequest(loginUrl, "GET");
         request.downloadHandler = new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("id", user.id);
+        request.SetRequestHeader("passwd", user.passwd);
 
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
         {
+            Debug.LogError("Result: " + request.result);
+            passwordMismatchText.gameObject.SetActive(true);
             Debug.LogError("Error: " + request.error);
         }
         else
@@ -67,13 +78,14 @@ public class LoginManager : MonoBehaviour
             User user = JsonUtility.FromJson<User>(jsonResponse);
             Debug.Log("User data received:");
             Debug.Log("Name: " + user.name);
-            Debug.Log("ID: " + user.ID);
+            Debug.Log("ID: " + user.id);
             Debug.Log("User Grade: " + user.userGrade);
             Debug.Log("Credit Sum: " + user.creditSum);
-            Debug.Log("Military Service Needed: " + user.militaryServiceNeeded);
-            Debug.Log("Military Served: " + user.militaryServed);
+            Debug.Log("Major: " + user.major);
             Debug.Log("Major Transfer: " + user.majorTransfer);
-            // 추가적인 처리 로직을 여기에 작성
+            // 로그인 성공 시 스킬 시스템 씬으로 전환
+            passwordMismatchText.gameObject.SetActive(false);
+            SceneManager.LoadScene("SkillSystem");
         }
         catch (System.Exception ex)
         {
@@ -81,3 +93,4 @@ public class LoginManager : MonoBehaviour
         }
     }
 }
+
