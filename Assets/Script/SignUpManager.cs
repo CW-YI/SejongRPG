@@ -6,11 +6,14 @@ using TMPro;
 
 public class SignUpManager : MonoBehaviour
 {
+    public TMP_InputField nameInputField;
     public TMP_InputField idInputField;
     public TMP_InputField passwordInputField;
-    public TMP_InputField nameInputField;
-    public TMP_InputField yearInputField;
-    public TMP_InputField creditsRequiredInputField;
+    public TMP_InputField userGradeInputField;
+    public TMP_InputField creditSumInputField;
+    public Toggle militaryServiceNeededToggle;
+    public Toggle militaryServedToggle;
+    public Toggle majorTransferToggle;
     public Button signUpButton;
 
     private string signUpUrl = "http://your-backend-url.com/api/signup"; // 백엔드 서버의 회원가입 엔드포인트 URL
@@ -23,20 +26,25 @@ public class SignUpManager : MonoBehaviour
 
     private void OnSignUpButtonClick()
     {
-        string username = idInputField.text;
-        string password = passwordInputField.text;
         string name = nameInputField.text;
-        int year = int.Parse(yearInputField.text);
-        int creditsRequired = int.Parse(creditsRequiredInputField.text);
+        int id = int.Parse(idInputField.text);
+        string password = passwordInputField.text;
+        int userGrade = int.Parse(userGradeInputField.text);
+        int creditSum = int.Parse(creditSumInputField.text);
+        bool militaryServiceNeeded = militaryServiceNeededToggle.isOn;
+        bool militaryServed = militaryServedToggle.isOn;
+        bool majorTransfer = majorTransferToggle.isOn;
 
         User user = new User
         {
-            username = username,
-            password = password,
             name = name,
-            year = year,
-            creditsRequired = creditsRequired,
-            creditsEarned = 0 // 회원가입 시 이수 학점은 0으로 초기화
+            ID = id,
+            password = password,
+            userGrade = userGrade,
+            creditSum = creditSum,
+            militaryServiceNeeded = militaryServiceNeeded,
+            militaryServed = militaryServed,
+            majorTransfer = majorTransfer
         };
 
         SendUserData(user);
@@ -76,11 +84,13 @@ public class SignUpManager : MonoBehaviour
         {
             User user = JsonUtility.FromJson<User>(jsonResponse);
             Debug.Log("User data received:");
-            Debug.Log("Username: " + user.username);
             Debug.Log("Name: " + user.name);
-            Debug.Log("Year: " + user.year);
-            Debug.Log("Credits Earned: " + user.creditsEarned);
-            Debug.Log("Credits Required: " + user.creditsRequired);
+            Debug.Log("ID: " + user.ID);
+            Debug.Log("User Grade: " + user.userGrade);
+            Debug.Log("Credit Sum: " + user.creditSum);
+            Debug.Log("Military Service Needed: " + user.militaryServiceNeeded);
+            Debug.Log("Military Served: " + user.militaryServed);
+            Debug.Log("Major Transfer: " + user.majorTransfer);
             // 추가적인 처리 로직을 여기에 작성
         }
         catch (System.Exception ex)
