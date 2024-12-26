@@ -3,11 +3,15 @@ using UnityEngine;
 
 public class lr_PointController : MonoBehaviour
 {
-    [SerializeField] private List<Transform> connectedPoints; // 연결된 포인트들
+    [SerializeField] public List<Transform> connectedPoints; // 연결된 포인트들
     [SerializeField] private GameObject linePrefab;          // Line Renderer 프리팹
     [SerializeField] private int incomingCount = 0;          // 진입 간선 수
-    [SerializeField] private bool isCompleted;               // 수업 완료 여부
-    [SerializeField] private bool isActivatable;            // 활성화 가능 여부
+    [SerializeField] public bool isCompleted;               // 수업 완료 여부
+    [SerializeField] public bool isActivatable;            // 활성화 가능 여부
+    [SerializeField] private string subjectName;         // 교과명
+    [SerializeField] private string id;                  // 교과명(영어)
+    [SerializeField] private string category;            // 과목 구분
+    [SerializeField] private int credit;               // 학점
 
     private List<GameObject> lines = new List<GameObject>(); // 생성된 Line Renderer 관리
     private SpriteRenderer spriteRenderer;                   // 포인트의 스프라이트 렌더러
@@ -32,6 +36,13 @@ public class lr_PointController : MonoBehaviour
         }
 
         if (incomingCount == 0) isActivatable = true;
+    }
+    public void SetPointData(string id, string name, string category, int credit)
+    {
+        this.id = id;
+        this.subjectName = name;
+        this.category = category;
+        this.credit = credit;
     }
     public void IncrementIncomingCount()
     {
@@ -109,5 +120,17 @@ public class lr_PointController : MonoBehaviour
         {
             SetCompletionStatus(true);
         }
+    }
+    private void OnMouseEnter()
+    {
+        // Point 정보로 팝업 표시
+        string message = $"Name : {id}\nCategory : {category}\nCredit : {credit}";
+        PopupManager.Instance.ShowPopup(message, transform.position);
+    }
+
+    private void OnMouseExit()
+    {
+        // 팝업 숨기기
+        PopupManager.Instance.HidePopup();
     }
 }

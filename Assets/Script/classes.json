@@ -1,0 +1,52 @@
+{
+  "classes": [
+    {
+      "id": "c",
+      "subjectName": "C프로그래밍",
+      "credit": 3,
+      "isCompleted": true,
+      "category": "전필",
+      "otherPoints": [ "advanced_c" ]
+    },
+    {
+      "id": "advanced_c",
+      "subjectName": "고급C프로그래밍",
+      "credit": 3,
+      "isCompleted": false,
+      "category": "전필",
+      "otherPoints": [ "data_structure" ]
+    },
+    {
+      "id": "data_structure",
+      "subjectName": "자료구조",
+      "credit": 3,
+      "isCompleted": false,
+      "category": "전필",
+      "otherPoints": [ "algorithm" ]
+    },
+    {
+      "id": "algorithm",
+      "subjectName": "알고리즘",
+      "credit": 3,
+      "isCompleted": false,
+      "category": "전필",
+      "otherPoints": []
+    },
+    {
+      "id": "digital_systems",
+      "subjectName": "디지털시스템",
+      "credit": 3,
+      "isCompleted": true,
+      "category": "전필",
+      "otherPoints": [ "computer_architecture"]
+    },
+    {
+      "id": "computer_architecture",
+      "subjectName": "컴퓨터구조",
+      "credit": 3,
+      "isCompleted": false,
+      "category": "전필",
+      "otherPoints": [ ]
+    }
+  ]
+}
