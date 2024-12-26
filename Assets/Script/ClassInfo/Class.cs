@@ -8,7 +8,8 @@ public class Class
     public string subjectName;         // 교과명
     public int credit;                 // 학점수
     public bool isCompleted;           // 들었는지 여부
-    public string category;            // 구분 (전필, 전선 등)
+    public int grade;                   // 학년
+    public string category;            // 이수 구분 (전필, 전선 등)
     public List<string> otherPoints;   // 연결된 다른 수업들 (이름 또는 ID)
 
     // 생성자
