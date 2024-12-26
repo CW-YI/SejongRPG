@@ -868,6 +868,7 @@ MonoBehaviour:
   passwordInputField: {fileID: 1701742544}
   signInButton: {fileID: 284868886}
   signUpButton: {fileID: 739697714}
+  passwordMismatchText: {fileID: 722425177}
 --- !u!1 &799904349
 GameObject:
   m_ObjectHideFlags: 0

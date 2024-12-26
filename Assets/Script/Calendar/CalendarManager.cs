@@ -1,18 +1,22 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CalendarManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public CSVReader csvReader;
+    public GameObject calendarGrid;
+    public GameObject dayPrefab;
+
     void Start()
     {
-        
-    }
+        List<CalendarEvent> events = csvReader.ReadCSVFiles();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        foreach (CalendarEvent calendarEvent in events)
+        {
+            GameObject day = Instantiate(dayPrefab, calendarGrid.transform);
+            day.GetComponentInChildren<Text>().text = $"{calendarEvent.Date.ToShortDateString()}\n{calendarEvent.Event}";
+        }
     }
 }
