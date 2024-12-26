@@ -7,31 +7,49 @@ using UnityEngine.SceneManagement;
 
 public class SignUpManager : MonoBehaviour
 {
-    public InputField nameInputField;
-    public InputField idInputField;
-    public InputField passwordInputField;
-    public InputField passwordIdentifyInputField;
-    public InputField userGradeInputField;
-    public InputField creditSumInputField;
-    public Dropdown majorDropdown; // Dropdown 추가
+    public TMP_InputField idInputField;
+    public TMP_InputField passwordInputField;
+    public TMP_InputField passwordIdentifyInputField;
+    public TMP_InputField nameInputField;
+    public TMP_InputField userGradeInputField;
+    public TMP_InputField creditSumInputField;
+    public TMP_Dropdown majorDropdown;
     public Toggle majorTransferToggle;
+    public Button nextButton;
     public Button signUpButton;
     public Button backButton;
-    public Text mismatchText;
-    public Text passwordMismatchText; // 새로운 텍스트
+    public TextMeshProUGUI mismatchText;
+    public TextMeshProUGUI passwordMismatchText;
 
-    private string signUpUrl = "http://sejongrpg.duckdns.org:3000/users"; // 백엔드 서버의 회원가입 엔드포인트 URL
+    private string signUpUrl = "http://sejongrpg.duckdns.org:3000/users";
 
     // Start is called before the first frame update
     void Start()
     {
+        nextButton.onClick.AddListener(OnNextButtonClick);
         signUpButton.onClick.AddListener(OnSignUpButtonClick);
-        backButton.onClick.AddListener(OnBackButtonClick); // Back 버튼 클릭 이벤트 추가
+        backButton.onClick.AddListener(OnBackButtonClick);
         mismatchText.gameObject.SetActive(false);
-        passwordMismatchText.gameObject.SetActive(false); // 새로운 텍스트 초기화
+        passwordMismatchText.gameObject.SetActive(false);
+        SetStepOneActive(true);
     }
 
-    private void OnSignUpButtonClick()
+    private void SetStepOneActive(bool isActive)
+    {
+        idInputField.gameObject.SetActive(isActive);
+        passwordInputField.gameObject.SetActive(isActive);
+        passwordIdentifyInputField.gameObject.SetActive(isActive);
+        nextButton.gameObject.SetActive(isActive);
+
+        nameInputField.gameObject.SetActive(!isActive);
+        userGradeInputField.gameObject.SetActive(!isActive);
+        creditSumInputField.gameObject.SetActive(!isActive);
+        majorDropdown.gameObject.SetActive(!isActive);
+        majorTransferToggle.gameObject.SetActive(!isActive);
+        signUpButton.gameObject.SetActive(!isActive);
+    }
+
+    private void OnNextButtonClick()
     {
         if (passwordInputField.text != passwordIdentifyInputField.text)
         {
@@ -40,13 +58,18 @@ public class SignUpManager : MonoBehaviour
             return;
         }
         passwordMismatchText.gameObject.SetActive(false);
+        SetStepOneActive(false);
+        signUpButton.GetComponentInChildren<TextMeshProUGUI>().text = "회원가입";
+    }
 
-        string name = nameInputField.text;
+    private void OnSignUpButtonClick()
+    {
         string id = idInputField.text;
         string password = passwordInputField.text;
+        string name = nameInputField.text;
         int userGrade = int.Parse(userGradeInputField.text);
         int creditSum = int.Parse(creditSumInputField.text);
-        string major = majorDropdown.options[majorDropdown.value].text; // Dropdown에서 선택된 값 가져오기
+        string major = majorDropdown.options[majorDropdown.value].text;
         bool majorTransfer = majorTransferToggle.isOn;
 
         User user = new User
@@ -67,10 +90,12 @@ public class SignUpManager : MonoBehaviour
     {
         StartCoroutine(SendUserDataCoroutine(user));
     }
+
     private void OnBackButtonClick()
     {
-        SceneManager.LoadScene("Login"); // 로그인 씬으로 전환
+        SceneManager.LoadScene("Login");
     }
+
     private IEnumerator SendUserDataCoroutine(User user)
     {
         string jsonData = JsonUtility.ToJson(user);
@@ -107,7 +132,6 @@ public class SignUpManager : MonoBehaviour
             Debug.Log("Credit Sum: " + user.creditSum);
             Debug.Log("Major: " + user.major);
             Debug.Log("Major Transfer: " + user.majorTransfer);
-            // 회원가입이 성공적으로 완료되면 로그인 씬으로 전환
             SceneManager.LoadScene("Login");
         }
         catch (System.Exception ex)
