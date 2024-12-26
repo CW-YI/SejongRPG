@@ -1,17 +1,17 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LoginManager : MonoBehaviour
 {
-    public InputField idInputField;
-    public InputField passwordInputField;
+    public TMP_InputField idInputField;
+    public TMP_InputField passwordInputField;
     public Button signInButton;
     public Button signUpButton;
-    public Text passwordMismatchText; // 비밀번호 불일치 텍스트
+    public TextMeshProUGUI passwordMismatchText; // 비밀번호 불일치 텍스트
 
     private string loginUrl = "http://sejongrpg.duckdns.org:3000/users"; // 백엔드 서버의 로그인 엔드포인트 URL
 
@@ -93,4 +93,3 @@ public class LoginManager : MonoBehaviour
         }
     }
 }
-
